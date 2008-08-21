@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'rake'
+
 Gem::Specification.new do |s|
   s.name              = 'aws-s3'
   s.version           = "0.5.1.#{Time.now.to_i.to_s}"
