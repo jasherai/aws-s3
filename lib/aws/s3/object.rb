@@ -180,16 +180,18 @@ module AWS
         
         # Makes a copy of the object with <tt>key</tt> to <tt>copy_key</tt>, preserving the ACL of the existing object if the <tt>:copy_acl</tt> option is true (default false).
         # If the <tt>:replace_meta<tt> option is true you can pass metadata (such as 'Content-type') in options and the metadata associated with the object will be replaced.
-        def copy(key, copy_key, bucket = nil, options = {})
+        def copy(key, copy_key = nil, bucket = nil, options = {})
+          copy_key      ||= key
           bucket          = bucket_name(bucket)
+          dest_bucket     = bucket_name(options.delete(:dest_bucket))
           source_key      = path!(bucket, key)
           copy_acl        = options.delete(:copy_acl)
           replace_meta    = options.delete(:replace_meta)
           default_options = {'x-amz-copy-source' => source_key}
           default_options['x-amz-metadata-directive'] = 'REPLACE' if replace_meta
-          target_key      = path!(bucket, copy_key)
+          target_key      = path!(dest_bucket, copy_key)
           returning put(target_key, default_options.merge(options)) do
-            acl(copy_key, bucket, acl(key, bucket)) if copy_acl
+            acl(copy_key, dest_bucket, acl(key, bucket)) if copy_acl
           end
         end
         
@@ -551,9 +553,13 @@ module AWS
         self.class.delete(key, bucket.name)
       end
       
-      # Copies the current object, given it the name <tt>copy_name</tt>. Keep in mind that due to limitations in 
-      # S3's API, this operation requires retransmitting the entire object to S3.
-      def copy(copy_name, options = {})
+      # Copies current object to a new bucket
+      def copy_to_bucket(dest_bucket)
+        copy(nil, :dest_bucket => dest_bucket, :copy_acl => true)
+      end
+      
+      # Copies the current object, given it the name <tt>copy_name</tt>.
+      def copy(copy_name=nil, options = {})
         self.class.copy(key, copy_name, bucket.name, options)
       end
       
