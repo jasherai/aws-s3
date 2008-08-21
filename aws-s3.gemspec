@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = 'aws-s3'
-  s.version           = Gem::Version.new(AWS::S3::Version)
+  s.version           = "0.5.1.#{Time.now.to_i.to_s}"
   s.summary           = "Client library for Amazon's Simple Storage Service's REST API"
   s.description       = s.summary
   s.email             = 'marcel@vernix.org'
