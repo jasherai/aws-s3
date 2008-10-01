@@ -179,8 +179,8 @@ module AWS
         end
         
         # Makes a copy of the object with <tt>key</tt> to <tt>copy_key</tt>, preserving the ACL of the existing object if the <tt>:copy_acl</tt> option is true (default false).
-        # If the <tt>:replace_meta<tt> option is true you can pass metadata (such as 'Content-type') in options and the metadata associated with the object will be replaced.
-        # If the <tt>:dest_bucket</tt> option exists the value will be the bucket where we copy to and copy_key can be left blank to simulate a move.
+        # If the <tt>:replace_meta<tt> option is true you can pass metadata (such as 'Content-type', 'Cache-Control') in options and the metadata associated with the 
+        # object will be replaced. If the <tt>:dest_bucket</tt> option exists the value will be the bucket where we copy to and copy_key can be left blank to simulate a move.
         def copy(key, copy_key = nil, bucket = nil, options = {})
           copy_key      ||= key
           options         = {:dest_bucket => bucket}.merge(options)
