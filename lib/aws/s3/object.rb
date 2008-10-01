@@ -195,7 +195,7 @@ module AWS
           default_options['x-amz-metadata-directive'] = 'REPLACE' if replace_meta
 
           returning put(target_key, default_options.merge(options)) do
-            acl(target_key, dest_bucket, acl(source_key, bucket)) if copy_acl
+            acl(copy_key, dest_bucket, acl(key, bucket)) if copy_acl
           end
         end
         
