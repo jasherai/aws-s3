@@ -1,8 +1,12 @@
 head:
 
-0.5.1:
+0.5.1.X:
 
-0.5.1:
+0.5.1.X:
+
+- Create valid gemspec that works with gems.github.com. [Jason Haruska (github.com/haruska), Isaac Feliu (github.com/isaacfeliu), Sander van Zoest (github.com/svanzoest)]
+- Allow copying objects between buckets [Jason Haruska (github.com/harusaka)]
+- Patch #21222 committed. Ability to replace metadata during remote copy. Patch by [Ignat Skoryh (ignat)]
 
 0.5.1:
 
