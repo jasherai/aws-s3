@@ -1,3 +1,9 @@
 .rake_tasks
 site/public/index.html
 pkg/
+aws-s3*.gem
+lib/aws/s3/Marshal.*
+lib/aws/s3/latest_specs.*
+lib/aws/s3/quick/
+lib/aws/s3/specs.*
+lib/aws/s3/yaml*
