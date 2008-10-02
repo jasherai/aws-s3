@@ -1,5 +1,5 @@
-require 'rubygems'
-require 'rake'
+# require 'rubygems'
+# require 'rake'
 
 Gem::Specification.new do |s|
   s.name              = 'aws-s3'
