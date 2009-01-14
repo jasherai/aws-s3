@@ -179,16 +179,26 @@ module AWS
         end
         
         # Makes a copy of the object with <tt>key</tt> to <tt>copy_key</tt>, preserving the ACL of the existing object if the <tt>:copy_acl</tt> option is true (default false).
+        # If the <tt>:replace_meta<tt> option is true you can pass metadata (such as 'Content-type', 'Cache-Control') in options and the metadata associated with the 
+        # object will be replaced. If the <tt>:dest_bucket</tt> option exists the value will be the bucket where we copy to and copy_key can be left blank to simulate a move.
         def copy(key, copy_key = nil, bucket = nil, options = {})
           copy_key      ||= key
-          options         = {:dest_bucket => bucket}.merge(options)
+          copy_acl        = options.delete(:copy_acl)
+          replace_meta    = options.delete(:replace_meta)
+          
+          dest_bucket     = bucket_name(options.delete(:dest_bucket) || bucket)
           bucket          = bucket_name(bucket)
           dest_bucket     = bucket_name(options[:dest_bucket])
           source_key      = path!(bucket, key)
-          default_options = {'x-amz-copy-source' => source_key}
           target_key      = path!(dest_bucket, copy_key)
-          returning put(target_key, default_options) do
-            acl(copy_key, dest_bucket, acl(key, bucket)) if options[:copy_acl]
+
+          default_options = {}
+          default_options['x-amz-copy-source'] = source_key
+          default_options['x-amz-metadata-directive'] = 'REPLACE' if replace_meta
+          options = default_options.merge(options)
+
+          returning put(target_key, options) do
+            acl(copy_key, dest_bucket, acl(key, bucket)) if copy_acl
           end
         end
         
